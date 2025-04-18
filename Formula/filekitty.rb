@@ -33,7 +33,9 @@ class Filekitty < Formula
 
       1. **Use Terminal**:
          Copy it into your Applications folder:
-           cp -R "#{opt_prefix}/FileKitty.app" /Applications/
+           # `ditto` will include .app bundle metadata like file icon, cp will not!
+           ditto /opt/homebrew/opt/filekitty/FileKitty.app /Applications/FileKitty.app
+
 
       2. **Use Finder**:
          - Open Finder
