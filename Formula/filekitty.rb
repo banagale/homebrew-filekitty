@@ -23,6 +23,11 @@ class Filekitty < Formula
     ohai "Installing to: #{target}"
     system "mkdir", "-p", File.dirname(target)
     system "cp", "-R", app_path, target
+
+    # Satisfy Homebrew install check
+    (prefix/"installed-via-homebrew.txt").write <<~EOS
+      FileKitty.app was installed to #{target}
+    EOS
   end
 
   def caveats
