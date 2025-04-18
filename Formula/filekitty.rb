@@ -12,28 +12,27 @@ class Filekitty < Formula
     system "poetry", "install", "--no-interaction", "--no-root"
     system "poetry", "run", "python", "setup.py", "py2app"
 
-    app_path = Dir["dist/FileKitty.app"].first
-
-    target = if File.writable?("/Applications")
-      "/Applications/FileKitty.app"
-    else
-      File.expand_path("~/Applications/FileKitty.app")
-    end
-
-    ohai "Installing to: #{target}"
-    system "mkdir", "-p", File.dirname(target)
-    system "cp", "-R", app_path, target
+    # Move the .app bundle into prefix (as required by Homebrew)
+    prefix.install Dir["dist/FileKitty.app"]
 
     # CLI launcher script
     (bin/"filekitty").write <<~EOS
       #!/bin/bash
       open -a "FileKitty"
     EOS
+  end
 
-    # Dummy file to satisfy Homebrew
-    (prefix/"installed-via-homebrew.txt").write <<~EOS
-      FileKitty.app was installed to #{target}
-    EOS
+  def post_install
+    app_source = prefix/"FileKitty.app"
+    target = if File.writable?("/Applications")
+      Pathname.new("/Applications/FileKitty.app")
+    else
+      Pathname.new(Dir.home + "/Applications/FileKitty.app")
+    end
+
+    ohai "Moving .app to: #{target}"
+    system "mkdir", "-p", target.dirname
+    system "cp", "-R", app_source, target
   end
 
   def caveats
