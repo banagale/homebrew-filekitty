@@ -1,8 +1,8 @@
 class Filekitty < Formula
   desc "A local LLM prompt toolkit with a macOS GUI"
   homepage "https://github.com/banagale/FileKitty"
-  url "https://github.com/banagale/FileKitty/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "REPLACE_WITH_ACTUAL_SHA256"
+  url "https://github.com/banagale/FileKitty/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "e21b8df1e5316c6ea5f4014b1b2d97ee46cce92ccc8cfa9aa8bb663e89a97208"
   license "MIT"
 
   depends_on "python@3.12"
