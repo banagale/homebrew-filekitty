@@ -22,18 +22,14 @@ class Filekitty < Formula
     EOS
   end
 
-  def post_install
-    app_source = prefix/"FileKitty.app"
-    target = if File.writable?("/Applications")
-      Pathname.new("/Applications/FileKitty.app")
-    else
-      Pathname.new(Dir.home + "/Applications/FileKitty.app")
-    end
+def post_install
+  app_source = prefix/"FileKitty.app"
+  target = Pathname.new("/Applications/FileKitty.app")
 
-    ohai "Moving .app to: #{target}"
-    system "mkdir", "-p", target.dirname
-    system "cp", "-R", app_source, target
-  end
+  ohai "Moving .app to: #{target}"
+  system "mkdir", "-p", target.dirname
+  system "cp", "-R", app_source, target
+end
 
   def caveats
     <<~EOS
