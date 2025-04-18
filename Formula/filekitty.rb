@@ -12,7 +12,6 @@ class Filekitty < Formula
     ENV["PYTHON"] = Formula["python@3.12"].opt_bin/"python3"
 
     # Create virtualenv and install deps
-    system "poetry", "env", "use", ENV["PYTHON"]
     system "poetry", "install", "--no-interaction", "--no-root"
 
     # Build macOS .app
