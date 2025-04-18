@@ -12,33 +12,38 @@ class Filekitty < Formula
     system "poetry", "install", "--no-interaction", "--no-root"
     system "poetry", "run", "python", "setup.py", "py2app"
 
-    # Move the .app bundle into prefix (as required by Homebrew)
+    # Install the .app bundle into prefix
     prefix.install Dir["dist/FileKitty.app"]
 
-    # CLI launcher script
+    # CLI launcher script that uses full path
     (bin/"filekitty").write <<~EOS
       #!/bin/bash
-      open -a "FileKitty"
+      open "#{opt_prefix}/FileKitty.app"
     EOS
   end
 
-def post_install
-  app_source = prefix/"FileKitty.app"
-  target = Pathname.new("/Applications/FileKitty.app")
-
-  ohai "Moving .app to: #{target}"
-  system "mkdir", "-p", target.dirname
-  system "cp", "-R", app_source, target
-end
-
   def caveats
     <<~EOS
-      FileKitty.app has been installed to your Applications folder.
+      FileKitty.app has been installed to:
+        #{opt_prefix}/FileKitty.app
 
-      You can launch it via:
-        Spotlight → FileKitty
+      macOS prevents Homebrew from installing apps directly into /Applications.
+
+      To make FileKitty behave like a regular Mac app, you have two options:
+
+      1. **Use Terminal**:
+         Copy it into your Applications folder:
+           cp -R "#{opt_prefix}/FileKitty.app" /Applications/
+
+      2. **Use Finder**:
+         - Open Finder
+         - Navigate to: #{opt_prefix}
+         - Drag `FileKitty.app` into your /Applications folder
+
+      Once moved, launch with:
         open -a FileKitty
-        filekitty    # from the terminal
+        or just:
+         filekitty
     EOS
   end
 
