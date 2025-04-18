@@ -9,28 +9,28 @@ class Filekitty < Formula
   depends_on "poetry"
 
   def install
-    ENV["PYTHON"] = Formula["python@3.12"].opt_bin/"python3"
-
-    # Create virtualenv and install deps
     system "poetry", "install", "--no-interaction", "--no-root"
-
-    # Build macOS .app
     system "poetry", "run", "python", "setup.py", "py2app"
 
-    # Install app bundle to Homebrew prefix
-    prefix.install Dir["dist/FileKitty.app"]
+    app_path = Dir["dist/FileKitty.app"].first
+
+    target = if File.writable?("/Applications")
+      "/Applications/FileKitty.app"
+    else
+      File.expand_path("~/Applications/FileKitty.app")
+    end
+
+    ohai "Installing to: #{target}"
+    system "mkdir", "-p", File.dirname(target)
+    system "cp", "-R", app_path, target
   end
 
   def caveats
     <<~EOS
-      FileKitty.app has been installed to:
-        #{opt_prefix}/FileKitty.app
+      FileKitty.app has been installed to your Applications folder.
 
-      You can move it to /Applications:
-        mv #{opt_prefix}/FileKitty.app /Applications/
-
-      Or launch it directly:
-        open #{opt_prefix}/FileKitty.app
+      You can launch it via Spotlight or with:
+        open -a FileKitty
     EOS
   end
 
@@ -38,4 +38,3 @@ class Filekitty < Formula
     system "true"
   end
 end
-
