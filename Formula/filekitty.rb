@@ -7,14 +7,18 @@ class Filekitty < Formula
 
   depends_on "python@3.12"
   depends_on "poetry"
-  depends_on "pyqt@5"
-  depends_on "py2app"
 
   def install
     ENV["PYTHON"] = Formula["python@3.12"].opt_bin/"python3"
+
+    # Create virtualenv and install deps
     system "poetry", "env", "use", ENV["PYTHON"]
     system "poetry", "install", "--no-interaction", "--no-root"
+
+    # Build macOS .app
     system "poetry", "run", "python", "setup.py", "py2app"
+
+    # Install app bundle to Homebrew prefix
     prefix.install Dir["dist/FileKitty.app"]
   end
 
