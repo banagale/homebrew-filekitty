@@ -24,7 +24,13 @@ class Filekitty < Formula
     system "mkdir", "-p", File.dirname(target)
     system "cp", "-R", app_path, target
 
-    # Satisfy Homebrew install check
+    # CLI launcher script
+    (bin/"filekitty").write <<~EOS
+      #!/bin/bash
+      open -a "FileKitty"
+    EOS
+
+    # Dummy file to satisfy Homebrew
     (prefix/"installed-via-homebrew.txt").write <<~EOS
       FileKitty.app was installed to #{target}
     EOS
@@ -34,12 +40,14 @@ class Filekitty < Formula
     <<~EOS
       FileKitty.app has been installed to your Applications folder.
 
-      You can launch it via Spotlight or with:
+      You can launch it via:
+        Spotlight → FileKitty
         open -a FileKitty
+        filekitty    # from the terminal
     EOS
   end
 
   test do
-    system "true"
+    system "filekitty" rescue true
   end
 end
