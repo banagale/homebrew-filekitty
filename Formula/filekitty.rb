@@ -27,25 +27,11 @@ class Filekitty < Formula
       FileKitty.app has been installed to:
         #{opt_prefix}/FileKitty.app
 
-      macOS prevents Homebrew from installing apps directly into /Applications.
+      To use it:
 
-      To make FileKitty behave like a regular Mac app, you have two options:
+        - Launch from Terminal:   filekitty
+        - Add to Applications:    ditto #{opt_prefix}/FileKitty.app /Applications/FileKitty.app
 
-      1. **Use Terminal**:
-         Copy it into your Applications folder:
-           # `ditto` will include .app bundle metadata like file icon, cp will not!
-           ditto /opt/homebrew/opt/filekitty/FileKitty.app /Applications/FileKitty.app
-
-
-      2. **Use Finder**:
-         - Open Finder
-         - Navigate to: #{opt_prefix}
-         - Drag `FileKitty.app` into your /Applications folder
-
-      Once moved, launch with:
-        open -a FileKitty
-        or just:
-         filekitty
     EOS
   end
 
