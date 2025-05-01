@@ -10,7 +10,7 @@ class Filekitty < Formula
 
   def install
     system "poetry", "install", "--no-interaction", "--no-root"
-    system "poetry", "run", "python", "setup.py", "py2app"
+    system "poetry", "run", "python", "setup.py", "py2app", "--standalone"
 
     # Install the .app bundle into prefix
     prefix.install Dir["dist/FileKitty.app"]
