@@ -10,7 +10,8 @@ class Filekitty < Formula
 
   def install
     system "poetry", "install", "--no-interaction", "--no-root"
-    system "poetry", "run", "python", "setup.py", "py2app", "--standalone"
+    system "poetry", "run", "pip", "install", "wheel"  # avoid PEP 517 error
+    system "poetry", "run", "python", "setup.py", "py2app"
     prefix.install Dir["dist/FileKitty.app"]
 
     (bin/"filekitty").write <<~EOS
