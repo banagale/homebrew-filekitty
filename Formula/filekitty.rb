@@ -28,7 +28,7 @@ class Filekitty < Formula
       To use it:
 
         - Launch from Terminal:   filekitty
-        - Add to Applications:    ditto #{opt_prefix}/FileKitty.app /Applications/FileKitty.app
+        - Add to Applications:    sudo ditto #{opt_prefix}/FileKitty.app /Applications/FileKitty.app
     EOS
   end
 
