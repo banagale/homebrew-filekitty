@@ -8,17 +8,17 @@ class Filekitty < Formula
   depends_on "python@3.12"
   depends_on "poetry"
 
-  def install
-    system "poetry", "install", "--no-interaction", "--no-root"
-    system "poetry", "run", "pip", "install", "wheel"  # avoid PEP 517 error
-    system "poetry", "run", "python", "setup.py", "py2app"
-    prefix.install Dir["dist/FileKitty.app"]
+def install
+  system "poetry", "install", "--no-interaction"
+  system "poetry", "run", "pip", "install", "wheel"  # avoid PEP 517 error
+  system "poetry", "run", "python", "setup.py", "py2app"
+  prefix.install Dir["dist/FileKitty.app"]
 
-    (bin/"filekitty").write <<~EOS
-      #!/bin/bash
-      open "#{opt_prefix}/FileKitty.app"
-    EOS
-  end
+  (bin/"filekitty").write <<~EOS
+    #!/bin/bash
+    open "#{opt_prefix}/FileKitty.app"
+  EOS
+end
 
   def caveats
     <<~EOS
